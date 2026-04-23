@@ -1,0 +1,139 @@
+/* Estilos para o Checklist de Progresso */
+#checklist-container {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 2px dashed var(--color-border);
+}
+
+#progress-container {
+    width: 100%;
+    background: #e5e7eb;
+    height: 12px;
+    border-radius: 6px;
+    margin: 15px 0;
+    overflow: hidden;
+}
+
+#progress-bar {
+    width: 0%;
+    height: 100%;
+    background: var(--color-accent);
+    transition: width 0.4s ease-in-out;
+}
+
+#progress-text {
+    font-weight: bold;
+    color: var(--color-sidebar);
+    margin-bottom: 20px;
+}
+
+.checklist {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+@media (max-width: 768px) {
+    .checklist {
+        grid-template-columns: 1fr;
+    }
+}
+
+.checklist li {
+    background: var(--color-white);
+    padding: 15px;
+    border-radius: var(--radius);
+    border: 1px solid var(--color-border);
+    transition: 0.2s;
+}
+
+.checklist li:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.checklist label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.95rem;
+    width: 100%;
+}
+
+.checklist input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    cursor: pointer;
+    accent-color: var(--color-accent);
+}
+
+/* Estilos para a Galeria de Evidências */
+#gallery-container {
+    margin-top: 4rem;
+    padding: 2rem;
+    background: #eee;
+    border-radius: var(--radius);
+}
+
+#evidence-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.evidence-card {
+    background: var(--color-white);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border-left: 8px solid var(--color-accent);
+}
+
+.evidence-card h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: var(--color-sidebar);
+    font-size: 1.1rem;
+}
+
+.card-images-grid {
+    display: flex;
+    flex-direction: column; /* Força uma abaixo da outra */
+    gap: 20px; /* Espaço entre as imagens empilhadas */
+}
+
+.evidence-card img {
+    width: 100%; /* Garante o mesmo tamanho lateral */
+    height: auto;
+    border-radius: 6px;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    display: block;
+}
+
+.missing-img-placeholder {
+    background: #f3f4f6;
+    border: 2px dashed #d1d5db;
+    border-radius: 4px;
+    padding: 40px;
+    text-align: center;
+    color: #6b7280;
+}
+
+.missing-img-placeholder p {
+    margin: 0 0 10px 0;
+    font-size: 1.1rem;
+}
+
+.missing-img-placeholder code {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.hidden {
+    display: none !important;
+}
