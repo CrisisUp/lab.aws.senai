@@ -5,208 +5,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doc Técnica: AWS Multi-VPC</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <style>
-        :root {
-            /* Paleta de Cores */
-            --color-sidebar: #1a1f26;
-            --color-main-bg: #f8f9fa;
-            --color-text: #2d3436;
-            --color-accent: #ff9900;
-            /* Laranja AWS */
-            --color-border: #d1d5db;
-            --color-code-bg: #2d2d2d;
-            --color-code-text: #f8f8f2;
-            --color-white: #ffffff;
-            --color-tip-bg: #fff9e6;
-            --color-warning-bg: #fff1f0;
-            --color-warning-border: #e74c3c;
-
-            /* Tipografia */
-            --font-family: 'Inter', sans-serif;
-            --fs-base: 1.2rem;
-            --fs-h1: 2.8rem;
-            --fs-h2: 2.1rem;
-            --fs-h3: 1.6rem;
-            --lh-base: 1.8;
-
-            /* Layout e Espaçamento */
-            --sidebar-width: 320px;
-            --main-max-width: 900px;
-            --spacing-sm: 10px;
-            --spacing-md: 20px;
-            --spacing-lg: 25px;
-            --spacing-xl: 40px;
-            --radius: 8px;
-        }
-
-        body {
-            font-family: var(--font-family);
-            line-height: var(--lh-base);
-            color: var(--color-text);
-            margin: 0;
-            display: flex;
-            background: var(--color-main-bg);
-            font-size: var(--fs-base);
-        }
-
-        /* Sidebar */
-        nav {
-            width: var(--sidebar-width);
-            height: 100vh;
-            background: var(--color-sidebar);
-            color: var(--color-white);
-            position: fixed;
-            padding: var(--spacing-xl);
-            box-sizing: border-box;
-            overflow-y: auto;
-        }
-
-        nav h2 {
-            color: var(--color-accent);
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 2rem;
-        }
-
-        nav ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        nav li {
-            margin: var(--spacing-lg) 0;
-        }
-
-        nav a {
-            color: #e5e7eb;
-            text-decoration: none;
-            font-size: 1rem;
-            transition: 0.3s;
-            display: block;
-        }
-
-        nav a:hover,
-        nav a:focus {
-            color: var(--color-accent);
-            transform: translateX(5px);
-        }
-
-        /* Main Content */
-        main {
-            margin-left: var(--sidebar-width);
-            padding: var(--spacing-xl);
-            max-width: var(--main-max-width);
-        }
-
-        h1 {
-            color: #1a1f26;
-            font-size: var(--fs-h1);
-            margin-bottom: 2rem;
-            border-bottom: 3px solid var(--color-accent);
-            padding-bottom: 10px;
-        }
-
-        h2 {
-            color: #1a1f26;
-            margin-top: 3.5rem;
-            border-left: 5px solid var(--color-accent);
-            padding-left: 15px;
-            font-size: var(--fs-h2);
-        }
-
-        h3 {
-            font-size: var(--fs-h3);
-            color: #374151;
-            margin-top: 2rem;
-        }
-
-        /* Tabelas */
-        table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            margin: var(--spacing-lg) 0;
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius);
-            overflow: hidden;
-            background: var(--color-white);
-        }
-
-        th,
-        td {
-            border-bottom: 1px solid var(--color-border);
-            padding: var(--spacing-lg);
-            text-align: left;
-        }
-
-        th {
-            background-color: #f1f2f6;
-            font-weight: 700;
-            color: #1a1f26;
-        }
-
-        /* Código e Dicas */
-        pre {
-            background: var(--color-code-bg);
-            color: var(--color-code-text);
-            padding: var(--spacing-lg);
-            border-radius: var(--radius);
-            overflow-x: auto;
-            font-size: 1.05rem;
-        }
-
-        code {
-            background: #e5e7eb;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            font-weight: 600;
-        }
-
-        .tip,
-        .warning {
-            padding: var(--spacing-lg);
-            border-radius: var(--radius);
-            margin: var(--spacing-lg) 0;
-            border-left: 6px solid var(--color-accent);
-        }
-
-        .tip {
-            background: var(--color-tip-bg);
-        }
-
-        .warning {
-            background: var(--color-warning-bg);
-            border-left-color: var(--color-warning-border);
-        }
-
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #4b5563;
-            border-radius: 5px;
-        }
-    </style>
 </head>
 
 <body>
 
+    <div class="ui-controls">
+        <button id="theme-toggle" class="ui-btn" title="Alternar Tema">🌙</button>
+        <button id="sidebar-toggle" class="ui-btn" title="Alternar Menu">☰</button>
+    </div>
+
     <nav aria-label="Navegação da Documentação">
-        <h2>Entrega: Infraestrutura</h2>
+        <div class="sidebar-header">
+            <h2>Infraestrutura AWS</h2>
+        </div>
         <ul>
-            <li><a href="#intro">1. Planejamento de Rede</a></li>
-            <li><a href="#subnets">2. Segmentação de Subnets</a></li>
-            <li><a href="#gateways">3. Conectividade de Borda</a></li>
-            <li><a href="#routing">4. Roteamento</a></li>
-            <li><a href="#peering">5. VPC Peering</a></li>
-            <li><a href="#services">6. Serviços (RDS e EC2)</a></li>
-            <li><a href="#checklist-container">7. Protocolo de Entrega</a></li>
-        </ul>
+            <li><a href="#intro" id="nav-intro">1. Planejamento de Rede</a></li>
+            <li><a href="#subnets" id="nav-subnets">2. Segmentação de Subnets</a></li>
+            <li><a href="#gateways" id="nav-gateways">3. Conectividade de Borda</a></li>
+            <li><a href="#routing" id="nav-routing">4. Roteamento</a></li>
+            <li><a href="#peering" id="nav-peering">5. VPC Peering</a></li>
+            <li><a href="#services" id="nav-services">6. Serviços (RDS e EC2)</a></li>
+            <li><a href="#visual" id="nav-visual">7. Topologia Visual</a></li>
+            <li><a href="#checklist-container" id="nav-checklist">8. Checklist de Entrega</a></li>
+            </ul>
     </nav>
 
     <main>
@@ -216,23 +38,19 @@
             <h2>1. Planejamento de Rede (Fundação)</h2>
             <p>O primeiro passo é estabelecer o endereçamento IP de forma a evitar sobreposições (CIDR overlap),
                 garantindo que as duas VPCs possam se comunicar via Peering futuramente.</p>
-            <table>
-                <tr>
-                    <th>Recurso</th>
-                    <th>Nome</th>
-                    <th>CIDR Block</th>
-                </tr>
-                <tr>
-                    <td>VPC A</td>
-                    <td><code data-var="vpcA"></code></td>
-                    <td><code data-var="cidrA"></code></td>
-                </tr>
-                <tr>
-                    <td>VPC B</td>
-                    <td><code data-var="vpcB"></code></td>
-                    <td><code data-var="cidrB"></code></td>
-                </tr>
-            </table>
+            
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr><th>Recurso</th><th>Nome</th><th>CIDR Block</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>VPC A</td><td><code data-var="vpcA"></code></td><td><code data-var="cidrA"></code></td></tr>
+                        <tr><td>VPC B</td><td><code data-var="vpcB"></code></td><td><code data-var="cidrB"></code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
             <p><strong>Procedimento:</strong></p>
             <ol>
                 <li>No Console AWS, navegue até VPC > Create VPC.</li>
@@ -240,6 +58,10 @@
                 <li>Defina o nome e o CIDR conforme a tabela acima.</li>
                 <li>Repita para ambas as VPCs.</li>
             </ol>
+
+            <div class="tip">
+                <strong>Configuração Vital (DNS):</strong> Após criar as VPCs, selecione cada uma, clique em <strong>Actions > Edit VPC settings</strong> e marque a opção <strong>"Enable DNS hostnames"</strong>. Sem isso, a AWS não gerará a URL pública que o professor Thiago solicitou no print do site.
+            </div>
         </section>
 
         <section id="subnets">
@@ -248,90 +70,45 @@
 
             <p><strong>Procedimento de Criação:</strong></p>
             <ol>
-                <li>No Console AWS, navegue até <strong>VPC > Subnets</strong> e clique em <strong>Create
-                        subnet</strong>.</li>
-                <li><strong>Selecione a VPC:</strong> No dropdown <em>VPC ID</em>, escolha a <code data-var="vpcA"></code>
-                    (Cuidado: não selecione a <code data-var="vpcB"></code> por engano aqui).</li>
+                <li>No Console AWS, navegue até <strong>VPC > Subnets</strong> e clique em <strong>Create subnet</strong>.</li>
+                <li><strong>Selecione a VPC:</strong> No dropdown <em>VPC ID</em>, escolha a <code data-var="vpcA"></code> (Cuidado: não selecione a <code data-var="vpcB"></code> por engano aqui).</li>
                 <li><strong>Configurações da Subnet:</strong>
                     <ul>
                         <li><strong>Subnet name:</strong> Digite o nome exato (ex: <code data-var="subAlphaPubA"></code>).</li>
-                        <li><strong>Availability Zone:</strong> Selecione a zona correta (ex: <code data-var="az1"></code>).
-                        </li>
-                        <li><strong>IPv4 CIDR block:</strong> Digite o range definido na tabela (ex:
-                            <code data-var="cidrAlphaPubA"></code>).
-                        </li>
+                        <li><strong>Availability Zone:</strong> Selecione a zona correta (ex: <code data-var="az1"></code>).</li>
+                        <li><strong>IPv4 CIDR block:</strong> Digite o range definido na tabela (ex: <code data-var="cidrAlphaPubA"></code>).</li>
                     </ul>
                 </li>
-                <li><strong>Dica de Produtividade:</strong> Em vez de salvar e criar uma por uma, clique no botão
-                    <strong>Add new subnet</strong> na parte inferior da página. Isso permite que você crie todas as
-                    subnets da <code data-var="vpcA"></code> em uma única sessão.
-                </li>
+                <li><strong>Dica de Produtividade:</strong> Em vez de salvar e criar uma por uma, clique no botão <strong>Add new subnet</strong> na parte inferior da página. Isso permite que você crie todas as subnets da <code data-var="vpcA"></code> em uma única sessão.</li>
                 <li>Após criar todas as da <code data-var="vpcA"></code>, clique em <strong>Create subnet</strong>.</li>
-                <li>Repita o mesmo processo completo para a <code data-var="vpcB"></code>, garantindo que o <em>VPC ID</em>
-                    selecionado seja o correto.</li>
+                <li>Repita o mesmo processo completo para a <code data-var="vpcB"></code>, garantindo que o <em>VPC ID</em> selecionado seja o correto.</li>
             </ol>
 
-            <div class="tip">
-                <strong>Atenção às Zonas (AZs):</strong> Mantenha a consistência. Se você colocar a
-                <code data-var="subAlphaPubA"></code> na <span data-var="az1"></span>, certifique-se de que a <code data-var="subAlphaPrivA"></code>
-                também esteja na <span data-var="az1"></span>. Isso facilita muito a gestão de tráfego e latência posteriormente.
+            <div class="warning">
+                <strong>Atenção (IP Público):</strong> Para que suas instâncias web sejam acessíveis via Internet e gerem um DNS Name, você deve selecionar as subnets públicas (ex: <code>pub-alpha-1a</code>), ir em <strong>Actions > Edit subnet settings</strong> e marcar a opção <strong>"Enable auto-assign public IPv4 address"</strong>.
             </div>
-            <table>
-                <tr>
-                    <th>Subnet</th>
-                    <th>VPC</th>
-                    <th>CIDR</th>
-                    <th>Zona (AZ)</th>
-                </tr>
-                <tr>
-                    <td><code data-var="subAlphaPubA"></code></td>
-                    <td><code data-var="vpcA"></code></td>
-                    <td><code data-var="cidrAlphaPubA"></code></td>
-                    <td><code data-var="az1"></code></td>
-                </tr>
-                <tr>
-                    <td><code data-var="subAlphaPubB"></code></td>
-                    <td><code data-var="vpcA"></code></td>
-                    <td><code data-var="cidrAlphaPubB"></code></td>
-                    <td><code data-var="az2"></code></td>
-                </tr>
-                <tr>
-                    <td><code data-var="subAlphaPrivA"></code></td>
-                    <td><code data-var="vpcA"></code></td>
-                    <td><code data-var="cidrAlphaPrivA"></code></td>
-                    <td><code data-var="az1"></code></td>
-                </tr>
-                <tr>
-                    <td><code data-var="subAlphaPrivB"></code></td>
-                    <td><code data-var="vpcA"></code></td>
-                    <td><code data-var="cidrAlphaPrivB"></code></td>
-                    <td><code data-var="az2"></code></td>
-                </tr>
-                <tr>
-                    <td><code data-var="subAlpha2PubA"></code></td>
-                    <td><code data-var="vpcB"></code></td>
-                    <td><code data-var="cidrAlpha2PubA"></code></td>
-                    <td><code data-var="az1"></code></td>
-                </tr>
-                <tr>
-                    <td><code data-var="subAlpha2PubB"></code></td>
-                    <td><code data-var="vpcB"></code></td>
-                    <td><code data-var="cidrAlpha2PubB"></code></td>
-                    <td><code data-var="az2"></code></td>
-                </tr>
-                <tr>
-                    <td><code data-var="subAlpha2PrivA"></code></td>
-                    <td><code data-var="vpcB"></code></td>
-                    <td><code data-var="cidrAlpha2PrivA"></code></td>
-                    <td><code data-var="az1"></code></td>
-                </tr>
-                <tr>
-                    <td><code data-var="subAlpha2PrivB"></code></td>
-                    <td><code data-var="vpcB"></code></td>
-                    <td><code data-var="cidrAlpha2PrivB"></code></td>
-                    <td><code data-var="az2"></code></td>
-                </tr>
-            </table>
+
+            <div class="tip">
+                <strong>Atenção às Zonas (AZs):</strong> Mantenha a consistência. Se você colocar a <code data-var="subAlphaPubA"></code> na <span data-var="az1"></span>, certifique-se de que a <code data-var="subAlphaPrivA"></code> também esteja na <span data-var="az1"></span>. Isso facilita muito a gestão de tráfego e latência posteriormente.
+            </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr><th>Subnet</th><th>VPC</th><th>CIDR</th><th>Zona (AZ)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code data-var="subAlphaPubA"></code></td><td><code data-var="vpcA"></code></td><td><code data-var="cidrAlphaPubA"></code></td><td><code data-var="az1"></code></td></tr>
+                        <tr><td><code data-var="subAlphaPubB"></code></td><td><code data-var="vpcA"></code></td><td><code data-var="cidrAlphaPubB"></code></td><td><code data-var="az2"></code></td></tr>
+                        <tr><td><code data-var="subAlphaPrivA"></code></td><td><code data-var="vpcA"></code></td><td><code data-var="cidrAlphaPrivA"></code></td><td><code data-var="az1"></code></td></tr>
+                        <tr><td><code data-var="subAlphaPrivB"></code></td><td><code data-var="vpcA"></code></td><td><code data-var="cidrAlphaPrivB"></code></td><td><code data-var="az2"></code></td></tr>
+                        <tr><td><code data-var="subAlpha2PubA"></code></td><td><code data-var="vpcB"></code></td><td><code data-var="cidrAlpha2PubA"></code></td><td><code data-var="az1"></code></td></tr>
+                        <tr><td><code data-var="subAlpha2PubB"></code></td><td><code data-var="vpcB"></code></td><td><code data-var="cidrAlpha2PubB"></code></td><td><code data-var="az2"></code></td></tr>
+                        <tr><td><code data-var="subAlpha2PrivA"></code></td><td><code data-var="vpcB"></code></td><td><code data-var="cidrAlpha2PrivA"></code></td><td><code data-var="az1"></code></td></tr>
+                        <tr><td><code data-var="subAlpha2PrivB"></code></td><td><code data-var="vpcB"></code></td><td><code data-var="cidrAlpha2PrivB"></code></td><td><code data-var="az2"></code></td></tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
 
         <section id="gateways">
@@ -343,42 +120,31 @@
                 <li>No painel da VPC, no menu esquerdo, clique em <strong>Internet Gateways</strong>.</li>
                 <li>Clique no botão laranja <strong>Create internet gateway</strong>.</li>
                 <li>Name tag: <code data-var="igwA"></code>. Clique em Create internet gateway.</li>
-                <li><strong>O passo que quase todo mundo esquece:</strong> Assim que criar, você verá uma mensagem no
-                    topo com um botão <strong>Attach to VPC</strong>. Clique nele.</li>
+                <li><strong>O passo que quase todo mundo esquece:</strong> Assim que criar, você verá uma mensagem no topo com um botão <strong>Attach to VPC</strong>. Clique nele.</li>
                 <li>Selecione a <code data-var="vpcA"></code> e clique em <strong>Attach internet gateway</strong>.</li>
-                <li>Repita tudo para a <code data-var="vpcB"></code> (Crie o <code data-var="igwB"></code> e anexe-o à
-                    <code data-var="vpcB"></code>).
-                </li>
+                <li>Repita tudo para a <code data-var="vpcB"></code> (Crie o <code data-var="igwB"></code> e anexe-o à <code data-var="vpcB"></code>).</li>
             </ol>
 
             <h3>B. NAT Gateway – A “Porta dos Fundos Segura”</h3>
-            <p>O NAT Gateway permite que instâncias em subnets privadas acessem a internet (updates, repositórios), mas
-                impede que a internet inicie conexões com elas.</p>
+            <p>O NAT Gateway permite que instâncias em subnets privadas acessem a internet (updates, repositórios), mas impede que a internet inicie conexões com elas.</p>
 
             <div class="warning">
-                <strong>Atenção:</strong> O NAT Gateway deve ser criado dentro de uma Subnet Pública. Se tentar criar em
-                uma privada, ele não terá rota de saída para o Internet Gateway.
+                <strong>Atenção:</strong> O NAT Gateway deve ser criado dentro de uma Subnet Pública. Se tentar criar em uma privada, ele não terá rota de saída para o Internet Gateway.
             </div>
 
             <ol>
-                <li>No menu esquerdo da VPC, clique em <strong>NAT Gateways</strong> > <strong>Create NAT
-                        Gateway</strong>.</li>
+                <li>No menu esquerdo da VPC, clique em <strong>NAT Gateways</strong> > <strong>Create NAT Gateway</strong>.</li>
                 <li>Name: <code data-var="natA"></code>.</li>
                 <li>Subnet: Escolha a <code data-var="subAlphaPubA"></code> (pública).</li>
                 <li>Connectivity type: <strong>Public</strong>.</li>
-                <li>Elastic IP allocation ID: Clique em <strong>Allocate Elastic IP</strong>. (Atenção: Você será
-                    cobrado por hora enquanto este IP estiver ativo).</li>
+                <li>Elastic IP allocation ID: Clique em <strong>Allocate Elastic IP</strong>. (Atenção: Você será cobrado por hora enquanto este IP estiver ativo).</li>
                 <li>Clique em <strong>Create NAT Gateway</strong>.</li>
-                <li>Repita para a <code data-var="vpcB"></code> (Nome: <code data-var="natB"></code>, Subnet:
-                    <code data-var="subAlpha2PubA"></code>).
-                </li>
+                <li>Repita para a <code data-var="vpcB"></code> (Nome: <code data-var="natB"></code>, Subnet: <code data-var="subAlpha2PubA"></code>).</li>
             </ol>
 
             <div class="tip">
-                <strong>Dica de Auditoria e Custos:</strong> NAT Gateways geram custos por hora e por volume de dados
-                processados. <strong>Sempre delete</strong> os NAT Gateways após concluir seus estudos para evitar
-                cobranças inesperadas na sua conta AWS. Lembre-se: criar o recurso não o faz funcionar; ele só
-                funcionará quando adicionarmos a rota para ele na próxima seção!
+                <strong>Dica de Auditoria e Custos:</strong> NAT Gateways geram custos por hora e por volume de dados processados. <strong>Sempre delete</strong> os NAT Gateways após concluir seus estudos. 
+                <br><em>Nota de Arquiteto:</em> Em um ambiente de produção, criaríamos um NAT Gateway por AZ para evitar um <strong>Single Point of Failure (SPOF)</strong>. Se a zona do NAT cair, todas as subnets privadas dependentes perdem conexão.
             </div>
         </section>
 
@@ -386,34 +152,29 @@
             <h2>4. Roteamento (Route Tables)</h2>
             <p>O roteamento define o "tráfego de saída" das suas sub-redes. Sem ele, a rede estaria isolada.</p>
 
+            <div class="warning">
+                <strong>Segurança Preventiva:</strong> Mantenha a <em>Main Route Table</em> da sua VPC totalmente isolada (sem rotas para Internet ou Peering). Ao criar novas subnets, elas herdam a Main por padrão; se a Main estiver "suja", sua subnet nasce exposta.
+            </div>
+
             <h3>1. Configurando a Rota Pública (<span data-var="rtPubA"></span>)</h3>
-            <p>Esta tabela envia o tráfego das sub-redes públicas diretamente para o Internet Gateway (acesso
-                irrestrito).</p>
+            <p>Esta tabela envia o tráfego das sub-redes públicas diretamente para o Internet Gateway (acesso irrestrito).</p>
             <ol>
-                <li>No painel da VPC, clique em <strong>Route Tables</strong> > <strong>Create route table</strong>.
-                </li>
+                <li>No painel da VPC, clique em <strong>Route Tables</strong> > <strong>Create route table</strong>.</li>
                 <li>Name: <code data-var="rtPubA"></code> | VPC: <code data-var="vpcA"></code>.</li>
-                <li><strong>Editando a Rota:</strong> Com a <code data-var="rtPubA"></code> selecionada, clique na aba
-                    <em>Routes</em> > <em>Edit routes</em> > <em>Add route</em>.
+                <li><strong>Editando a Rota:</strong> Com a <code data-var="rtPubA"></code> selecionada, clique na aba <em>Routes</em> > <em>Edit routes</em> > <em>Add route</em>.
                     <ul>
                         <li>Destination: <code data-var="anywhereCidr"></code></li>
                         <li>Target: <strong>Internet Gateway</strong> > <code data-var="igwA"></code></li>
                         <li>Clique em <strong>Save changes</strong>.</li>
                     </ul>
                 </li>
-                <li><strong>Associando:</strong> Clique na aba <em>Subnet Associations</em> > <em>Edit subnet
-                        associations</em>. Marque apenas as sub-redes públicas: <code data-var="subAlphaPubA"></code> e
-                    <code data-var="subAlphaPubB"></code>. Clique em <strong>Save</strong>.
-                </li>
+                <li><strong>Associando:</strong> Clique na aba <em>Subnet Associations</em> > <em>Edit subnet associations</em>. Marque apenas as sub-redes públicas: <code data-var="subAlphaPubA"></code> e <code data-var="subAlphaPubB"></code>. Clique em <strong>Save</strong>.</li>
             </ol>
 
             <h3>2. Configurando a Rota Privada (<span data-var="rtPrivA"></span>)</h3>
-            <p>Esta tabela envia o tráfego das sub-redes privadas para o NAT Gateway, permitindo acesso à internet
-                apenas para saída.</p>
+            <p>Esta tabela envia o tráfego das sub-redes privadas para o NAT Gateway, permitindo acesso à internet apenas para saída.</p>
             <ol>
-                <li><strong>Create route table</strong>. Name: <code data-var="rtPrivA"></code> | VPC:
-                    <code data-var="vpcA"></code>.
-                </li>
+                <li><strong>Create route table</strong>. Name: <code data-var="rtPrivA"></code> | VPC: <code data-var="vpcA"></code>.</li>
                 <li><strong>Editando a Rota:</strong> Aba <em>Routes</em> > <em>Edit routes</em> > <em>Add route</em>.
                     <ul>
                         <li>Destination: <code data-var="anywhereCidr"></code></li>
@@ -421,26 +182,18 @@
                         <li>Clique em <strong>Save changes</strong>.</li>
                     </ul>
                 </li>
-                <li><strong>Associando:</strong> Aba <em>Subnet Associations</em> > <em>Edit subnet associations</em>.
-                    Marque apenas as privadas: <code data-var="subAlphaPrivA"></code> e <code data-var="subAlphaPrivB"></code>. Clique em
-                    <strong>Save</strong>.
-                </li>
+                <li><strong>Associando:</strong> Aba <em>Subnet Associations</em> > <em>Edit subnet associations</em>. Marque apenas as privadas: <code data-var="subAlphaPrivA"></code> e <code data-var="subAlphaPrivB"></code>. Clique em <strong>Save</strong>.</li>
             </ol>
 
             <div class="tip">
-                <strong>Nota de Best Practice:</strong> Note que não tocamos na "Main Route Table" da VPC. Ao fazer a
-                associação explícita das suas sub-redes nas tabelas que você criou, você mantém o controle total e evita
-                que novas sub-redes que você venha a criar herdem configurações de roteamento indesejadas.
+                <strong>Nota de Best Practice:</strong> Note que não tocamos na "Main Route Table" da VPC. Ao fazer a associação explícita das suas sub-redes nas tabelas que você criou, você mantém o controle total e evita que novas sub-redes que você venha a criar herdem configurações de roteamento indesejadas.
             </div>
 
             <h3>3. Repetição para a <span data-var="vpcB"></span></h3>
-            <p>Repita o processo exatamente da mesma forma para a segunda VPC:</p>
+            <p>Repita o processo para a segunda VPC para garantir que ela também tenha saída para a internet:</p>
             <ul>
-                <li><strong><span data-var="rtPubB"></span>:</strong> Associe <code data-var="subAlpha2PubA"></code> e <code data-var="subAlpha2PubB"></code>
-                    com rota para <code data-var="igwB"></code>.</li>
-                <li><strong><span data-var="rtPrivB"></span>:</strong> Associe <code data-var="subAlpha2PrivA"></code> e
-                    <code data-var="subAlpha2PrivB"></code> com rota para <code data-var="natB"></code>.
-                </li>
+                <li><strong><span data-var="rtPubB"></span>:</strong> Associe as subnets públicas da <span data-var="vpcB"></span> com rota <code>0.0.0.0/0</code> para o <code data-var="igwB"></code>.</li>
+                <li><strong><span data-var="rtPrivB"></span>:</strong> Associe as subnets privadas da <span data-var="vpcB"></span> com rota <code>0.0.0.0/0</code> para o <code data-var="natB"></code>. <strong>(Passo vital para o sucesso do yum install na VPC B)</strong>.</li>
             </ul>
         </section>
 
@@ -453,8 +206,7 @@
             <ol>
                 <li><strong>Criar a Solicitação (Requester):</strong>
                     <ul>
-                        <li>No painel da VPC, clique em <strong>Peering connections</strong> > <strong>Create peering
-                                connection</strong>.</li>
+                        <li>No painel da VPC, clique em <strong>Peering connections</strong> > <strong>Create peering connection</strong>.</li>
                         <li>Name: <code data-var="peeringId"></code>.</li>
                         <li>VPC (Requester): <code data-var="vpcA"></code>.</li>
                         <li>Select a VPC to peer with: <code data-var="vpcB"></code>.</li>
@@ -462,61 +214,45 @@
                 </li>
                 <li><strong>Aceitar a Solicitação (Accepter):</strong>
                     <ul>
-                        <li>Ainda na tela de Peering, selecione a conexão criada (ela estará com status <em>Pending
-                                Acceptance</em>).</li>
+                        <li>Ainda na tela de Peering, selecione a conexão criada (ela estará com status <em>Pending Acceptance</em>).</li>
                         <li>Clique no menu <strong>Actions</strong> > <strong>Accept request</strong>.</li>
-                        <li>Confirme no botão <strong>Accept request</strong>. O status mudará para <em>Active</em>.
-                        </li>
+                        <li>Confirme no botão <strong>Accept request</strong>. O status mudará para <em>Active</em>.</li>
                     </ul>
                 </li>
             </ol>
 
-            <h3 style="color: #e74c3c;">O Passo CRÍTICO: Atualizar as Route Tables</h3>
-            <p>O Peering é apenas o "cabo" físico/lógico. Sem as rotas, os pacotes não sabem que devem usar esse "cabo"
-                para chegar na outra rede.</p>
+            <h3 style="color: var(--warning);">O Passo CRÍTICO: Atualizar as Route Tables</h3>
+            <p>O Peering é apenas o "cabo" físico/lógico. Sem as rotas, os pacotes não sabem que devem usar esse "cabo" para chegar na outra rede.</p>
 
             <ul>
-                <li><strong>Na <span data-var="vpcA"></span>:</strong> Em <code data-var="rtPubA"></code> e <code data-var="rtPrivA"></code>,
-                    adicione:
-                    <br>Destination: <code data-var="cidrB"></code> | Target: <strong>Peering Connection</strong> >
-                    <code data-var="peeringId"></code>.
+                <li><strong>Na <span data-var="vpcA"></span>:</strong> Em <code data-var="rtPubA"></code> e <code data-var="rtPrivA"></code>, adicione:
+                    <br>Destination: <code data-var="cidrB"></code> | Target: <strong>Peering Connection</strong> > <code data-var="peeringId"></code>.
                 </li>
-                <li><strong>Na <span data-var="vpcB"></span>:</strong> Em <code data-var="rtPubB"></code> e <code data-var="rtPrivB"></code>,
-                    adicione:
-                    <br>Destination: <code data-var="cidrA"></code> | Target: <strong>Peering Connection</strong> >
-                    <code data-var="peeringId"></code>.
+                <li><strong>Na <span data-var="vpcB"></span>:</strong> Em <code data-var="rtPubB"></code> e <code data-var="rtPrivB"></code>, adicione:
+                    <br>Destination: <code data-var="cidrA"></code> | Target: <strong>Peering Connection</strong> > <code data-var="peeringId"></code>.
                 </li>
             </ul>
 
             <div class="tip">
-                <strong>Dica de Ouro (Security Groups):</strong> O VPC Peering <strong>não</strong> abre portas
-                automaticamente. O teste de “Ping” (ICMP) entre instâncias só funcionará se o Security Group da
-                instância de destino permitir o tráfego vindo da rede (CIDR) da instância de origem.
-                <br><em>Exemplo:</em> No SG da instância da <code data-var="vpcA"></code>, adicione uma regra de entrada
-                (Inbound): <strong>All ICMP – IPv4</strong> com origem <code data-var="cidrB"></code>.
+                <strong>Dica de Ouro (Security Groups):</strong> O teste de “Ping” (ICMP) entre instâncias só funcionará se o Security Group da instância de destino permitir o tráfego vindo da rede (CIDR) da instância de origem. No SG da instância da <code data-var="vpcA"></code>, adicione uma regra de entrada (Inbound): <strong>All ICMP – IPv4</strong> com origem <code data-var="cidrB"></code>.
             </div>
         </section>
 
         <section id="services">
             <h2>6. Serviços (RDS e EC2)</h2>
-            <p>Nesta etapa, transformamos sua rede (o "encanamento") em uma aplicação funcional. Separamos a camada de
-                aplicação da camada de dados.</p>
+            <p>Nesta etapa, transformamos sua rede (o "encanamento") em uma aplicação funcional. Separamos a camada de aplicação da camada de dados.</p>
 
             <h3>1. Banco de Dados (RDS)</h3>
-            <p>O RDS é um serviço gerenciado. Ele <strong>não</strong> precisa de IP público, por isso o isolamos nas
-                subnets privadas.</p>
+            <p>O RDS é um serviço gerenciado. Ele <strong>não</strong> precisa de IP público, por isso o isolamos nas subnets privadas.</p>
             <ul>
-                <li><strong>DB Subnet Group:</strong> Vá em RDS > <em>Subnet groups</em> > <em>Create DB subnet
-                        group</em>.
-                    <br>Name: <code data-var="dbGroup"></code> | VPC: <code data-var="vpcA"></code> | Subnets: Selecione
-                    <strong>apenas as duas privadas</strong>.
+                <li><strong>DB Subnet Group:</strong> Vá em RDS > <em>Subnet groups</em> > <em>Create DB subnet group</em>.
+                    <br>Name: <code data-var="dbGroup"></code> | VPC: <code data-var="vpcA"></code> | Subnets: Selecione <strong>apenas as duas privadas</strong>.
                 </li>
                 <li><strong>Criando a Instância:</strong> Databases > <em>Create database</em>.
                     <br>Engine: <strong data-var="dbEngine"></strong> | Template: <strong>Sandbox / Free tier</strong>.
                     <br>Identificador: <code data-var="dbInstanceIdentifier"></code> | Administrador: <code data-var="dbUser"></code>
-                    <br>Senha: <code data-var="dbPassword"></code> | Classe: <code data-var="dbClass"></code>
-                    <br>Connectivity: VPC <code data-var="vpcA"></code> | DB Subnet Group: <code data-var="dbGroup"></code> | Public
-                    access: <strong>Not publicly accessible</strong>.
+                    <br>Senha: <code data-var="dbPassword"></code> | Classe: <code data-var="dbClass"></code> | Armazenamento: <code data-var="dbStorage"></code>
+                    <br>Connectivity: VPC <code data-var="vpcA"></code> | DB Subnet Group: <code data-var="dbGroup"></code> | Public access: <strong>Not publicly accessible</strong>.
                 </li>
             </ul>
 
@@ -530,54 +266,175 @@
                     <ul>
                         <li>HTTP (<span data-var="httpPort"></span>): <code data-var="anywhereCidr"></code></li>
                         <li>SSH (<span data-var="sshPort"></span>): <code>Seu IP</code></li>
-                        <li>All ICMP (IPv4): <code data-var="cidrB"></code> (Para Ping entre as VPCs)</li>
+                        <li>All ICMP (IPv4): <code>10.0.0.0/8</code> (Permite Ping entre ambas as VPCs)</li>
                     </ul>
                 </li>
-                <li><strong>User Data (Automação):</strong> No momento do lançamento, cole no campo <em>User data</em>:
-                </li>
+                <li><strong>User Data (Automação):</strong> No momento do lançamento, cole no campo <em>User data</em>:</li>
             </ul>
             <pre>#!/bin/bash
-yum update -y
-yum install -y httpd php
-systemctl start httpd
-systemctl enable httpd
-echo "&lt;h1&gt;Servidor Operacional - $(hostname -f)&lt;/h1&gt;" &gt; /var/www/html/index.php</pre>
+            yum update -y
+            yum install -y httpd php mariadb105 # mariadb105 fornece o cliente mysql
+            systemctl start httpd
+            systemctl enable httpd
+            echo "&lt;h1&gt;Servidor Operacional - $(hostname -f)&lt;/h1&gt;" &gt; /var/www/html/index.php</pre>
 
             <div class="warning">
-                <strong>Ajuste de Ouro (Segurança RDS):</strong> Após criar o RDS, ele terá um Security Group próprio. Você precisa editar as <em>Inbound Rules</em> deste grupo para permitir
-                tráfego na porta <strong data-var="dbPort"></strong> (<span data-var="dbEngine"></span>), definindo a Origem (Source) como o ID do Security Group
-                do seu Servidor Web (<code data-var="sgWeb"></code>).
+                <strong>Ajuste de Ouro (Segurança RDS):</strong> Após criar o RDS, ele terá um Security Group próprio. Você precisa editar as <em>Inbound Rules</em> deste grupo para permitir <span data-var="dbEngine"></span> na porta <strong data-var="dbPort"></strong>, definindo a Origem como o ID do Security Group do seu Servidor Web (<code data-var="sgWeb"></code>). 
+                <br><em>Dica de Sucesso:</em> O script <code>User Data</code> acima instala o <code>mariadb105</code>, que fornece o executável <code>mysql</code>. Sem isso, você não conseguiria realizar o teste de conexão direta proposto na fase de validação.
+            </div>
+
+            <div class="tip">
+                <strong>Ajuste Crítico de Entrega:</strong> O professor Thiago exige que uma das instâncias hospede o site do <strong>Notion</strong>. Após o lançamento da instância A, utilize o SSH ou o Instance Connect para baixar/copiar os arquivos HTML do Notion para a pasta <code>/var/www/html/</code>, substituindo o index.php genérico do script.
+            </div>
+        </section>
+
+        <section id="visual">
+            <h2>7. Diagrama da Arquitetura (Topologia Final)</h2>
+            <p>Abaixo, a representação visual da infraestrutura provisionada, destacando a segregação de redes e o fluxo de tráfego entre VPCs.</p>
+            
+            <div class="architecture-diagram">
+                <svg viewBox="0 -50 1100 650" xmlns="http://www.w3.org/2000/svg" font-family="Inter, Arial">
+                    <!-- BACKGROUND -->
+                    <defs>
+                        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,0,0,0.03)" stroke-width="1"/>
+                        </pattern>
+                    </defs>
+                    <rect y="-50" width="100%" height="650" fill="url(#grid)" />
+
+                    <!-- AWS REGION BOX -->
+                    <rect x="5" y="-30" width="1090" height="610" rx="20" fill="none" stroke="#545b64" stroke-width="2" stroke-dasharray="10,5"/>
+                    <rect x="5" y="-30" width="220" height="35" rx="10" fill="#545b64"/>
+                    <text x="20" y="-7" fill="white" font-weight="bold" font-size="14">AWS Region: <tspan data-var="awsRegion"></tspan></text>
+
+                    <!-- VPC ALPHA -->
+                    <rect x="20" y="40" width="500" height="520" rx="15" fill="none" stroke="#232f3e" stroke-width="2.5" stroke-dasharray="8,4"/>
+                    <rect x="20" y="40" width="500" height="40" rx="15 15 0 0" fill="#232f3e" opacity="0.1"/>
+                    <text x="40" y="65" fill="#232f3e" font-weight="800" font-size="16">
+                        <tspan data-var="vpcA"></tspan> (<tspan data-var="cidrA"></tspan>)
+                    </text>
+
+                    <!-- Subnets VPC Alpha -->
+                    <rect x="40" y="100" width="200" height="180" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+                    <text x="50" y="120" fill="#1e40af" font-weight="700" font-size="11" data-var="subAlphaPubA"></text>
+                    <rect x="100" y="140" width="80" height="80" rx="6" fill="#ff9900" /> 
+                    <text x="120" y="185" fill="white" font-weight="bold" font-size="12">EC2-A</text>
+                    <circle cx="190" cy="240" r="15" fill="#8c4fff" />
+                    <text x="180" y="245" fill="white" font-weight="bold" font-size="10">NAT</text>
+
+                    <rect x="40" y="300" width="200" height="180" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5" opacity="0.6"/>
+                    <text x="50" y="320" fill="#1e40af" font-weight="700" font-size="11" data-var="subAlphaPubB"></text>
+
+                    <rect x="280" y="100" width="200" height="180" rx="8" fill="#fff1f2" stroke="#ef4444" stroke-width="1.5"/>
+                    <text x="290" y="120" fill="#991b1b" font-weight="700" font-size="11" data-var="subAlphaPrivA"></text>
+                    <rect x="340" y="140" width="80" height="80" rx="40" fill="#0073bb" /> 
+                    <text x="360" y="185" fill="white" font-weight="bold" font-size="12">RDS</text>
+
+                    <rect x="280" y="300" width="200" height="180" rx="8" fill="#fff1f2" stroke="#ef4444" stroke-width="1.5" opacity="0.6"/>
+                    <text x="290" y="320" fill="#991b1b" font-weight="700" font-size="11" data-var="subAlphaPrivB"></text>
+
+                    <!-- VPC ALPHA2 -->
+                    <rect x="580" y="40" width="500" height="520" rx="15" fill="none" stroke="#232f3e" stroke-width="2.5" stroke-dasharray="8,4"/>
+                    <rect x="580" y="40" width="500" height="40" rx="15 15 0 0" fill="#232f3e" opacity="0.1"/>
+                    <text x="600" y="65" fill="#232f3e" font-weight="800" font-size="16">
+                        <tspan data-var="vpcB"></tspan> (<tspan data-var="cidrB"></tspan>)
+                    </text>
+
+                    <!-- Subnets VPC Alpha2 -->
+                    <rect x="600" y="100" width="200" height="180" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+                    <text x="610" y="120" fill="#1e40af" font-weight="700" font-size="11" data-var="subAlpha2PubA"></text>
+                    <rect x="660" y="140" width="80" height="80" rx="6" fill="#ff9900" />
+                    <text x="680" y="185" fill="white" font-weight="bold" font-size="12">EC2-B</text>
+                    <circle cx="750" cy="240" r="15" fill="#8c4fff" />
+                    <text x="740" y="245" fill="white" font-weight="bold" font-size="10">NAT</text>
+
+                    <rect x="600" y="300" width="200" height="180" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5" opacity="0.6"/>
+                    <text x="610" y="320" fill="#1e40af" font-weight="700" font-size="11" data-var="subAlpha2PubB"></text>
+
+                    <rect x="840" y="100" width="200" height="180" rx="8" fill="#fff1f2" stroke="#ef4444" stroke-width="1.5"/>
+                    <text x="850" y="120" fill="#991b1b" font-weight="700" font-size="11" data-var="subAlpha2PrivA"></text>
+
+                    <rect x="840" y="300" width="200" height="180" rx="8" fill="#fff1f2" stroke="#ef4444" stroke-width="1.5" opacity="0.6"/>
+                    <text x="850" y="320" fill="#991b1b" font-weight="700" font-size="11" data-var="subAlpha2PrivB"></text>
+
+                    <!-- PEERING CONNECTION -->
+                    <line x1="520" y1="300" x2="580" y2="300" stroke="#ff9900" stroke-width="6" stroke-dasharray="10,5" />
+                    <rect x="475" y="275" width="150" height="50" rx="25" fill="white" stroke="#ff9900" stroke-width="3"/>
+                    <text x="550" y="305" fill="#ff9900" font-weight="900" font-size="9" text-anchor="middle" data-var="peeringId"></text>
+
+                    <!-- Gateways -->
+                    <path d="M 270 40 L 270 0 M 830 40 L 830 0" stroke="#8c4fff" stroke-width="3" stroke-linecap="round"/>
+                    <rect x="235" y="-15" width="70" height="30" rx="5" fill="#8c4fff"/>
+                    <text x="242" y="5" fill="white" font-weight="bold" font-size="10" data-var="igwA"></text>
+                    <rect x="795" y="-15" width="70" height="30" rx="5" fill="#8c4fff"/>
+                    <text x="802" y="5" fill="white" font-weight="bold" font-size="10" data-var="igwB"></text>
+                </svg>
             </div>
         </section>
 
         <section id="checklist-container">
             <h2>7. Checklist de Entrega (Prints Obrigatórios)</h2>
-            <p>Conclua cada item e capture os prints necessários para o envio ao professor Thiago Tadao.</p>
-            
             <div id="progress-container">
                 <div id="progress-bar"></div>
             </div>
-            <p id="progress-text">Progresso: 0%</p>
+            <p id="progress-text">Conclusão: 0%</p>
 
             <ul class="checklist">
-                <li><label><input type="checkbox" id="p1" data-img="img01a.png, img01b.png"> <span>Print: Duas instâncias Running (VPCs diferentes)</span></label></li>
-                <li><label><input type="checkbox" id="p2" data-img="img02a.png, img02b.png, img02c.png"> <span>Print: VPCs, Subnets e Route Tables configuradas</span></label></li>
-                <li><label><input type="checkbox" id="p3" data-img="img03.png"> <span>Print: Site acessado pelo DNS (obrigatório link Notion)</span></label></li>
-                <li><label><input type="checkbox" id="p4" data-img="img04.png"> <span>Print: Segundo Site (Template HTML livre)</span></label></li>
-                <li><label><input type="checkbox" id="p5" data-img="img05.png"> <span>Print: Site com Banco de Dados configurado</span></label></li>
-                <li><label><input type="checkbox" id="p6" data-img="img06.png"> <span>Print: VPC Peering (Status Active)</span></label></li>
-                <li><label><input type="checkbox" id="p7" data-img="img07a.png, img07b.png"> <span>Print: Desafio Ping entre instâncias cross-VPC</span></label></li>
-                <li><label><input type="checkbox" id="p8" data-img="img08a.png, img08b.png"> <span>Print: Topologia - Mapa de Recursos da VPC</span></label></li>
+                <li>
+                    <input type="checkbox" id="p1" data-img="img01a.png, img01b.png" data-nav="nav-intro">
+                    <label for="p1"><span>1. VPCs Criadas e CIDRs Planejados</span></label>
+                    <button class="btn-view" onclick="openGallery('p1')">Ver Print</button>
+                </li>
+                <li>
+                    <input type="checkbox" id="p2" data-img="img02a.png, img02b.png, img02c.png" data-nav="nav-subnets">
+                    <label for="p2"><span>2. Subnets e Route Tables configuradas</span></label>
+                    <button class="btn-view" onclick="openGallery('p2')">Ver Print</button>
+                </li>
+                <li>
+                    <input type="checkbox" id="p3" data-img="img03.png" data-nav="nav-gateways">
+                    <label for="p3"><span>3. Gateways (IGW/NAT) Ativos</span></label>
+                    <button class="btn-view" onclick="openGallery('p3')">Ver Print</button>
+                </li>
+                <li>
+                    <input type="checkbox" id="p4" data-img="img04.png" data-nav="nav-routing">
+                    <label for="p4"><span>4. Roteamento e Internet OK</span></label>
+                    <button class="btn-view" onclick="openGallery('p4')">Ver Print</button>
+                </li>
+                <li>
+                    <input type="checkbox" id="p5" data-img="img05.png" data-nav="nav-services">
+                    <label for="p5"><span>5. Banco de Dados RDS provisionado</span></label>
+                    <button class="btn-view" onclick="openGallery('p5')">Ver Print</button>
+                </li>
+                <li>
+                    <input type="checkbox" id="p6" data-img="img06.png" data-nav="nav-peering">
+                    <label for="p6"><span>6. VPC Peering (Active)</span></label>
+                    <button class="btn-view" onclick="openGallery('p6')">Ver Print</button>
+                </li>
+                <li>
+                    <input type="checkbox" id="p7" data-img="img07a.png, img07b.png" data-nav="nav-services">
+                    <label for="p7"><span>7. EC2 e Sites Web Online</span></label>
+                    <button class="btn-view" onclick="openGallery('p7')">Ver Print</button>
+                </li>
+                <li>
+                    <input type="checkbox" id="p8" data-img="img08a.png, img08b.png" data-nav="nav-checklist">
+                    <label for="p8"><span>8. Topologia e Mapa de Recursos</span></label>
+                    <button class="btn-view" onclick="openGallery('p8')">Ver Print</button>
+                </li>
             </ul>
         </section>
 
         <section id="gallery-container" class="hidden">
-            <h2>Galeria de Evidências</h2>
-            <div id="evidence-gallery">
-                <!-- Imagens serão inseridas aqui dinamicamente -->
-            </div>
+            <h2>Relatório Consolidado de Evidências</h2>
+            <div id="evidence-gallery"></div>
         </section>
     </main>
+
+    <div id="modal-overlay" onclick="closeModal()" role="dialog" aria-modal="true">
+        <div id="modal-content" onclick="event.stopPropagation()">
+            <button id="close-modal" onclick="closeModal()" aria-label="Fechar modal">&times;</button>
+            <div id="modal-body"></div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

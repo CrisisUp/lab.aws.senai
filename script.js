@@ -1,152 +1,153 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // --- 1. DICIONÁRIO DE INFRAESTRUTURA ---
+  // --- 1. CONFIGURAÇÃO E MANIFESTO ---
   const awsConfig = {
-    vpcA: "alpha-vpc",
-    cidrA: "10.0.0.0/16",
-    vpcB: "alpha2-vpc",
-    cidrB: "10.1.0.0/16",
-    az1: "us-east-1a",
-    az2: "us-east-1b",
-    subAlphaPubA: "pub-alpha-1a",
-    cidrAlphaPubA: "10.0.1.0/24",
-    subAlphaPubB: "pub-alpha-1b",
-    cidrAlphaPubB: "10.0.2.0/24",
-    subAlphaPrivA: "priv-alpha-1a",
-    cidrAlphaPrivA: "10.0.3.0/24",
-    subAlphaPrivB: "priv-alpha-1b",
-    cidrAlphaPrivB: "10.0.4.0/24",
-    subAlpha2PubA: "pub-alpha2-1a",
-    cidrAlpha2PubA: "10.1.1.0/24",
-    subAlpha2PubB: "pub-alpha2-1b",
-    cidrAlpha2PubB: "10.1.2.0/24",
-    subAlpha2PrivA: "priv-alpha2-1a",
-    cidrAlpha2PrivA: "10.1.3.0/24",
-    subAlpha2PrivB: "priv-alpha2-1b",
-    cidrAlpha2PrivB: "10.1.4.0/24",
-    igwA: "alpha-igw",
-    igwB: "alpha2-igw",
-    natA: "alpha-nat",
-    natB: "alpha2-nat",
-    rtPubA: "rt-public-alpha",
-    rtPrivA: "rt-private-alpha",
-    rtPubB: "rt-public-alpha2",
-    rtPrivB: "rt-private-alpha2",
+    awsRegion: "us-east-1", az1: "us-east-1a", az2: "us-east-1b",
+    vpcA: "alpha-vpc", cidrA: "10.0.0.0/16",
+    vpcB: "alpha2-vpc", cidrB: "10.1.0.0/16",
+    subAlphaPubA: "pub-alpha-1a", cidrAlphaPubA: "10.0.1.0/24",
+    subAlphaPubB: "pub-alpha-1b", cidrAlphaPubB: "10.0.2.0/24",
+    subAlphaPrivA: "priv-alpha-1a", cidrAlphaPrivA: "10.0.3.0/24",
+    subAlphaPrivB: "priv-alpha-1b", cidrAlphaPrivB: "10.0.4.0/24",
+    subAlpha2PubA: "pub-alpha2-1a", cidrAlpha2PubA: "10.1.1.0/24",
+    subAlpha2PubB: "pub-alpha2-1b", cidrAlpha2PubB: "10.1.2.0/24",
+    subAlpha2PrivA: "priv-alpha2-1a", cidrAlpha2PrivA: "10.1.3.0/24",
+    subAlpha2PrivB: "priv-alpha2-1b", cidrAlpha2PrivB: "10.1.4.0/24",
+    igwA: "alpha-igw", igwB: "alpha2-igw",
+    natA: "alpha-nat", natB: "alpha2-nat",
+    rtPubA: "rt-public-alpha", rtPrivA: "rt-private-alpha",
+    rtPubB: "rt-public-alpha2", rtPrivB: "rt-private-alpha2",
     peeringId: "alpha-to-alpha2-peering",
-    dbInstanceIdentifier: "lab-db",
-    dbUser: "main",
-    dbPassword: "lab-password",
-    dbEngine: "MySQL",
-    dbClass: "db.t3.micro",
-    dbStorage: "20GB",
-    dbInitialName: "lab",
-    dbPort: "3306",
-    sgWeb: "sg-web-server",
-    sgDb: "sg-db-mysql",
-    sshPort: "22",
-    httpPort: "80",
-    anywhereCidr: "0.0.0.0/0",
-    webInstanceA: "web-server-alpha",
-    webInstanceB: "web-server-alpha2"
+    dbInstanceIdentifier: "lab-db", dbUser: "main",
+    dbPassword: "lab-password", dbEngine: "MySQL", dbEngineVersion: "8.0",
+    dbClass: "db.t3.micro", dbStorage: "20GB",
+    dbInitialName: "lab", dbPort: "3306",
+    sgWeb: "sg-web-server", sgDb: "sg-db-mysql",
+    sshPort: "22", httpPort: "80", anywhereCidr: "0.0.0.0/0",
+    webInstanceA: "web-server-alpha", webInstanceB: "web-server-alpha2",
+    ec2Class: "t2.micro"
   };
 
-  // --- 2. MOTOR DE INJEÇÃO DE VARIÁVEIS ---
-  const injectVariables = () => {
-    const elements = document.querySelectorAll("[data-var]");
-    elements.forEach((el) => {
-      const varName = el.getAttribute("data-var");
-      if (awsConfig[varName]) {
-        el.textContent = awsConfig[varName];
-      }
+  const manifest = ["img01a.png", "img01b.png", "img02a.png", "img02b.png", "img02c.png", "img05.png", "img06.png", "img07a.png", "img07b.png", "img08a.png", "img08b.png"];
+
+  // --- 2. INJEÇÃO DE VARIÁVEIS ---
+  document.querySelectorAll("[data-var]").forEach(el => {
+    const varName = el.getAttribute("data-var");
+    if (awsConfig[varName]) el.textContent = awsConfig[varName];
+  });
+
+  // --- 3. UI CONTROLS (THEME & SIDEBAR) ---
+  const toggleBtn = document.getElementById("sidebar-toggle");
+  const themeBtn = document.getElementById("theme-toggle");
+
+  const setTheme = (theme) => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+    themeBtn.textContent = theme === "dark" ? "☀️" : "🌙";
+  };
+
+  themeBtn.addEventListener("click", () => {
+    const newTheme = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+  });
+
+  toggleBtn.addEventListener("click", () => {
+    document.body.classList.toggle("sidebar-collapsed");
+    toggleBtn.textContent = document.body.classList.contains("sidebar-collapsed") ? "➜" : "☰";
+  });
+
+  setTheme(localStorage.getItem("theme") || "light");
+
+  // --- 4. SCROLL SPY (Navegação Ativa) ---
+  const sections = document.querySelectorAll("main section");
+  const navLinks = document.querySelectorAll("nav a");
+
+  window.addEventListener("scroll", () => {
+    let current = "";
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      if (pageYOffset >= sectionTop - 150) current = section.getAttribute("id");
     });
-  };
+    navLinks.forEach(link => {
+      link.classList.remove("active");
+      if (link.getAttribute("href").includes(current)) link.classList.add("active");
+    });
+  });
 
-  // --- 3. LÓGICA DO CHECKLIST E GALERIA ---
+  // --- 5. GESTÃO DE ESTADO E GALERIA ---
   const checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
-  const progressBar = document.getElementById("progress-bar");
-  const progressText = document.getElementById("progress-text");
-  const galleryContainer = document.getElementById("gallery-container");
   const evidenceGallery = document.getElementById("evidence-gallery");
+  const galleryContainer = document.getElementById("gallery-container");
 
-  const updateGallery = () => {
-    evidenceGallery.innerHTML = "";
-    let hasImages = false;
+  const createEvidenceCard = (cb) => {
+    const card = document.createElement("div");
+    card.className = "evidence-card";
+    card.id = `card-${cb.id}`;
+    
+    const title = document.createElement("h3");
+    title.textContent = cb.nextElementSibling.innerText;
+    card.appendChild(title);
 
-    checkboxes.forEach((cb) => {
-      if (cb.checked && cb.dataset.img) {
-        hasImages = true;
-        const itemText = cb.nextElementSibling.innerText;
-        
-        // Separa as imagens por vírgula, remove espaços e limita a 5 imagens
-        const imgPaths = cb.dataset.img.split(',').map(s => s.trim()).slice(0, 5);
-
-        const card = document.createElement("div");
-        card.className = "evidence-card";
-        
-        let imagesHtml = "";
-        imgPaths.forEach(path => {
-          imagesHtml += `
-            <div class="img-wrapper">
-              <img src="${path}" alt="${itemText}" onerror="handleImgError(this)">
-            </div>
-          `;
-        });
-
-        card.innerHTML = `
-          <h3>${itemText}</h3>
-          <div class="card-images-grid">
-            ${imagesHtml}
-          </div>
-        `;
-        evidenceGallery.appendChild(card);
+    const grid = document.createElement("div");
+    grid.className = "card-images-grid";
+    
+    const imgPaths = cb.dataset.img.split(',').map(s => s.trim());
+    imgPaths.forEach(path => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "img-wrapper";
+      if (manifest.includes(path)) {
+        const img = document.createElement("img");
+        img.src = path;
+        img.loading = "lazy";
+        wrapper.appendChild(img);
+      } else {
+        wrapper.innerHTML = `<div class="missing-img-placeholder"><p>📷 Aguardando print</p><small><code>${path}</code></small></div>`;
       }
+      grid.appendChild(wrapper);
     });
-
-    if (hasImages) {
-      galleryContainer.classList.remove("hidden");
-    } else {
-      galleryContainer.classList.add("hidden");
-    }
+    card.appendChild(grid);
+    return card;
   };
 
-  window.handleImgError = (img) => {
-    const wrapper = img.parentElement;
-    img.style.display = 'none';
-    const path = img.getAttribute('src');
-    wrapper.innerHTML = `
-      <div class="missing-img-placeholder">
-        <p>📷 <strong>Aguardando print</strong></p>
-        <small><code>${path}</code></small>
-      </div>
-    `;
+  const updateGallery = (cb) => {
+    const existing = document.getElementById(`card-${cb.id}`);
+    if (cb.checked && !existing) evidenceGallery.appendChild(createEvidenceCard(cb));
+    else if (!cb.checked && existing) existing.remove();
+    galleryContainer.classList.toggle("hidden", evidenceGallery.children.length === 0);
   };
 
   const updateProgress = () => {
-    let checkedCount = 0;
-    checkboxes.forEach((cb) => {
-      localStorage.setItem(cb.id, cb.checked);
-      if (cb.checked) checkedCount++;
+    const checked = Array.from(checkboxes).filter(c => c.checked).length;
+    const percent = Math.round((checked / checkboxes.length) * 100);
+    document.getElementById("progress-bar").style.width = percent + "%";
+    document.getElementById("progress-text").textContent = `Conclusão: ${percent}%`;
+    
+    checkboxes.forEach(cb => {
+        const link = document.getElementById(cb.dataset.nav);
+        if (link) cb.checked ? link.classList.add("done") : link.classList.remove("done");
+        localStorage.setItem(cb.id, cb.checked);
     });
-
-    const totalSteps = checkboxes.length;
-    const percent = totalSteps > 0 ? Math.round((checkedCount / totalSteps) * 100) : 0;
-
-    if (progressBar) progressBar.style.width = percent + "%";
-    if (progressText) progressText.innerText = `Progresso: ${percent}%`;
-
-    if (percent === 100) {
-      if (progressText) progressText.style.color = "#27ae60";
-    } else {
-      if (progressText) progressText.style.color = "var(--color-sidebar)";
-    }
-
-    updateGallery();
   };
 
-  checkboxes.forEach((cb) => {
+  // Funções Globais
+  window.openGallery = (itemId) => {
+    const cb = document.getElementById(itemId);
+    const modalBody = document.getElementById("modal-body");
+    modalBody.innerHTML = "";
+    modalBody.appendChild(createEvidenceCard(cb));
+    document.getElementById("modal-overlay").style.display = "flex";
+    document.body.style.overflow = "hidden";
+  };
+
+  window.closeModal = () => {
+    document.getElementById("modal-overlay").style.display = "none";
+    document.body.style.overflow = "auto";
+  };
+
+  checkboxes.forEach(cb => {
     cb.checked = localStorage.getItem(cb.id) === "true";
-    cb.addEventListener("change", updateProgress);
+    cb.addEventListener("change", () => { updateProgress(); updateGallery(cb); });
+    if (cb.checked) { updateGallery(cb); }
   });
 
-  injectVariables();
   updateProgress();
 });
