@@ -28,7 +28,11 @@ document.addEventListener("DOMContentLoaded", () => {
     ec2Class: "t2.micro"
   };
 
-  const manifest = ["img01a.png", "img01b.png", "img02a.png", "img02b.png", "img02c.png", "img05.png", "img06.png", "img07a.png", "img07b.png", "img08a.png", "img08b.png"];
+  const manifest = [
+    "img01a.png", "img01b.png", "img02a.png", "img02b.png", "img02c.png", 
+    "img03.png", "img04.png", "img05.png", "img06.png", 
+    "img07a.png", "img07b.png", "img07.png", "img08a.png", "img08b.png"
+  ];
 
   // --- 2. INJEÇÃO DE VARIÁVEIS ---
   document.querySelectorAll("[data-var]").forEach(el => {
