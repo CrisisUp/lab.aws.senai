@@ -78,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
   const evidenceGallery = document.getElementById("evidence-gallery");
   const galleryContainer = document.getElementById("gallery-container");
+  const IMAGE_PATH_PREFIX = "imgs/";
 
   const createEvidenceCard = (cb) => {
     const card = document.createElement("div");
@@ -97,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
       wrapper.className = "img-wrapper";
       if (manifest.includes(path)) {
         const img = document.createElement("img");
-        img.src = path;
+        img.src = IMAGE_PATH_PREFIX + path;
         img.loading = "lazy";
         wrapper.appendChild(img);
       } else {
