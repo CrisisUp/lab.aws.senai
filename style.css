@@ -2,8 +2,8 @@
 
 :root {
     --aws-squid-ink: #232f3e;
-    --aws-orange: #ff9900;
-    --aws-orange-light: #ffb74d;
+    --aws-orange: #d17d00; /* Melhor contraste */
+    --aws-orange-light: #ff9900;
     --aws-blue: #0073bb;
     --aws-white: #ffffff;
     --bg-main: #f4f7f9;
@@ -23,6 +23,24 @@
     --fs-h1: 2.8rem;
     --fs-h2: 1.8rem;
     --radius: 12px;
+}
+
+/* Link de Pulo para Acessibilidade */
+.skip-link {
+    position: absolute;
+    top: -100px; left: 0;
+    background: var(--aws-orange);
+    color: white;
+    padding: 10px 20px;
+    z-index: 2000;
+    transition: top 0.3s;
+}
+.skip-link:focus { top: 0; }
+
+/* Indicador de Foco Acessível */
+:focus-visible {
+    outline: 3px solid var(--aws-blue);
+    outline-offset: 4px;
 }
 
 [data-theme="dark"] {

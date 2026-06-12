@@ -1,0 +1,81 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: #000;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#bg-carousel {
+    /* Quadro fixo padrão solicitado */
+    width: 2406px;
+    height: 1073px;
+    
+    /* Responsividade para telas menores */
+    max-width: 95vw;
+    max-height: calc(95vw * (1073 / 2406));
+    
+    background-color: #000;
+    
+    /* SOLUÇÃO: CORTE INTELIGENTE (CROP) */
+    /* 'cover' faz a imagem preencher todo o quadro. 
+       Se a imagem for mais alta, o excesso em cima/embaixo é escondido.
+       As laterais ficarão sempre cravadas nos 2406px. */
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    transition: background-image 0.2s ease-in-out;
+    box-shadow: 0 0 40px rgba(0,0,0,0.8);
+    z-index: 1;
+    border: 1px solid #333; /* Borda sutil para delimitar o quadro fixo */
+}
+
+#page-counter {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 120, 212, 0.8);
+    color: white;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: bold;
+    font-size: 1rem;
+    z-index: 100;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0 20px;
+    pointer-events: none;
+    z-index: 101;
+}
+
+.controls button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.5rem;
+    pointer-events: auto;
+    transition: all 0.2s;
+}
+
+.controls button:hover {
+    background: rgba(0, 120, 212, 0.6);
+    transform: scale(1.1);
+}

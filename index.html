@@ -10,6 +10,8 @@
 
 <body>
 
+    <a href="#intro" class="skip-link">Pular para o conteúdo principal</a>
+
     <div class="ui-controls">
         <button id="theme-toggle" class="ui-btn" title="Alternar Tema">🌙</button>
         <button id="sidebar-toggle" class="ui-btn" title="Alternar Menu">☰</button>
@@ -28,7 +30,7 @@
             <li><a href="#services" id="nav-services">6. Serviços (RDS e EC2)</a></li>
             <li><a href="#visual" id="nav-visual">7. Topologia Visual</a></li>
             <li><a href="#checklist-container" id="nav-checklist">8. Checklist de Entrega</a></li>
-            </ul>
+        </ul>
     </nav>
 
     <main>
@@ -293,7 +295,10 @@
             <p>Abaixo, a representação visual da infraestrutura provisionada, destacando a segregação de redes e o fluxo de tráfego entre VPCs.</p>
             
             <div class="architecture-diagram">
-                <svg viewBox="0 -50 1100 650" xmlns="http://www.w3.org/2000/svg" font-family="Inter, Arial">
+                <svg viewBox="0 -50 1100 650" xmlns="http://www.w3.org/2000/svg" font-family="Inter, Arial" role="img" aria-labelledby="svg-title svg-desc">
+                    <title id="svg-title">Topologia de Rede AWS</title>
+                    <desc id="svg-desc">Diagrama visual mostrando duas VPCs conectadas por Peering, cada uma com 4 subnets, instâncias EC2 e banco de dados RDS.</desc>
+                    
                     <!-- BACKGROUND -->
                     <defs>
                         <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -373,11 +378,11 @@
         </section>
 
         <section id="checklist-container">
-            <h2>7. Checklist de Entrega (Prints Obrigatórios)</h2>
-            <div id="progress-container">
+            <h2>8. Checklist de Entrega (Prints Obrigatórios)</h2>
+            <div id="progress-container" role="progressbar" aria-valuemin="0" aria-valuemax="100">
                 <div id="progress-bar"></div>
             </div>
-            <p id="progress-text">Conclusão: 0%</p>
+            <p id="progress-text" aria-live="polite">Conclusão: 0%</p>
 
             <ul class="checklist">
                 <li>
@@ -430,7 +435,7 @@
     </main>
 
     <div id="modal-overlay" onclick="closeModal()" role="dialog" aria-modal="true">
-        <div id="modal-content" onclick="event.stopPropagation()">
+        <div id="modal-content" onclick="event.stopPropagation()" tabindex="-1">
             <button id="close-modal" onclick="closeModal()" aria-label="Fechar modal">&times;</button>
             <div id="modal-body"></div>
         </div>

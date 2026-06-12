@@ -1,0 +1,70 @@
+<mxfile host="65bd71144e">
+    <diagram id="azure-topologia" name="Topologia Azure SENAI">
+        <mxGraphModel dx="1671" dy="656" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="backbone" value="MICROSOFT AZURE BACKBONE (Região: East US 2)" style="swimlane;whiteSpace=wrap;html=1;fontStyle=1;startSize=23;bgGradient=none;fillColor=#F3F4F6;strokeColor=#9CA3AF;dashed=1;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="45" width="1080" height="540" as="geometry"/>
+                </mxCell>
+                <mxCell id="vnet-deb" value="         VNet: debian-projeto-vnet (172.16.0.0/16)" style="swimlane;whiteSpace=wrap;html=1;startSize=40;fillColor=#EFF6FF;strokeColor=#3B82F6;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;" parent="backbone" vertex="1">
+                    <mxGeometry x="40" y="75" width="420" height="360" as="geometry"/>
+                </mxCell>
+                <mxCell id="icon-vnet-deb" value="" style="image;html=1;image=https://raw.githubusercontent.com/andrelw/azure-icons/main/icons/Networking/Virtual-Networks.svg;" parent="vnet-deb" vertex="1">
+                    <mxGeometry x="12" y="6" width="28" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="sub-deb-def" value="         Subnet: default (172.16.1.0/24)" style="swimlane;whiteSpace=wrap;html=1;startSize=30;fillColor=#DBEAFE;strokeColor=#2563EB;dashed=1;align=left;spacingLeft=10;" parent="vnet-deb" vertex="1">
+                    <mxGeometry x="20" y="60" width="380" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="nsg-deb-icon" value="debian-projeto-nsg" style="image;html=1;image=https://raw.githubusercontent.com/andrelw/azure-icons/main/icons/Networking/Network-Security-Groups.svg;fontSize=10;fontColor=#1E3A8A;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;spacingLeft=5;" parent="sub-deb-def" vertex="1">
+                    <mxGeometry x="210" y="4" width="22" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="vm-deb" value="VM: debian-projeto&#xa;IP: 172.16.1.4&#xa;(Sem IP Público)" style="image;html=1;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;image=https://raw.githubusercontent.com/andrelw/azure-icons/main/icons/Compute/Virtual-Machine-Linux.svg;fontStyle=1;fontSize=11;spacingLeft=10;" parent="sub-deb-def" vertex="1">
+                    <mxGeometry x="30" y="45" width="55" height="55" as="geometry"/>
+                </mxCell>
+                <mxCell id="sub-deb-bas" value="         Subnet: AzureBastionSubnet" style="swimlane;whiteSpace=wrap;html=1;startSize=30;fillColor=#F0FDF4;strokeColor=#16A34A;dashed=1;align=left;spacingLeft=10;" parent="vnet-deb" vertex="1">
+                    <mxGeometry x="20" y="210" width="380" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="bas-deb" value="Azure Bastion PaaS&#xa;[debian-projeto-bastion]" style="image;html=1;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;image=https://raw.githubusercontent.com/andrelw/azure-icons/main/icons/Networking/Bastion.svg;fontStyle=1;fontSize=11;spacingLeft=10;" parent="sub-deb-bas" vertex="1">
+                    <mxGeometry x="30" y="42" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow-deb" value="" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#16A34A;dashed=1;endArrow=classic;endFill=1;" parent="vnet-deb" source="bas-deb" target="vm-deb" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="vnet-win" value="         VNet: WinSrv-projeto-vnet (10.0.0.0/16)" style="swimlane;whiteSpace=wrap;html=1;startSize=40;fillColor=#FFF7ED;strokeColor=#EA580C;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;" parent="backbone" vertex="1">
+                    <mxGeometry x="620" y="75" width="420" height="360" as="geometry"/>
+                </mxCell>
+                <mxCell id="icon-vnet-win" value="" style="image;html=1;image=https://raw.githubusercontent.com/andrelw/azure-icons/main/icons/Networking/Virtual-Networks.svg;" parent="vnet-win" vertex="1">
+                    <mxGeometry x="12" y="6" width="28" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="sub-win-def" value="         Subnet: default (10.0.0.0/24)" style="swimlane;whiteSpace=wrap;html=1;startSize=30;fillColor=#FFEDD5;strokeColor=#D97706;dashed=1;align=left;spacingLeft=10;" parent="vnet-win" vertex="1">
+                    <mxGeometry x="20" y="60" width="380" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="nsg-win-icon" value="WinSrv-projeto-nsg" style="image;html=1;image=https://raw.githubusercontent.com/andrelw/azure-icons/main/icons/Networking/Network-Security-Groups.svg;fontSize=10;fontColor=#7C2D12;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;spacingLeft=5;" parent="sub-win-def" vertex="1">
+                    <mxGeometry x="200" y="4" width="22" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="vm-win" value="VM: WinSrv-projeto&#xa;IP: 10.0.0.4&#xa;(Sem IP Público)" style="image;html=1;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;image=https://raw.githubusercontent.com/andrelw/azure-icons/main/icons/Compute/Virtual-Machine.svg;fontStyle=1;fontSize=11;spacingLeft=10;" parent="sub-win-def" vertex="1">
+                    <mxGeometry x="30" y="45" width="55" height="55" as="geometry"/>
+                </mxCell>
+                <mxCell id="sub-win-bas" value="         Subnet: AzureBastionSubnet" style="swimlane;whiteSpace=wrap;html=1;startSize=30;fillColor=#F0FDF4;strokeColor=#16A34A;dashed=1;align=left;spacingLeft=10;" parent="vnet-win" vertex="1">
+                    <mxGeometry x="20" y="210" width="380" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="bas-win" value="Azure Bastion PaaS&#xa;[WinSrv-projeto-bastion]" style="image;html=1;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;image=https://raw.githubusercontent.com/andrelw/azure-icons/main/icons/Networking/Bastion.svg;fontStyle=1;fontSize=11;spacingLeft=10;" parent="sub-win-bas" vertex="1">
+                    <mxGeometry x="30" y="42" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow-win" value="" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#16A34A;dashed=1;endArrow=classic;endFill=1;" parent="vnet-win" source="bas-win" target="vm-win" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="peering-line" value="VNET PEERING (Bidirecional)&#xa;Status: FullyInSync (Connected)&#xa;Fluxo: test-ip-flow -&gt; ALLOW" style="text;html=1;strokeColor=#4B5563;fillColor=#ffffff;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontStyle=1;strokeWidth=2;spacingLeft=55;image=https://raw.githubusercontent.com/andrelw/azure-icons/main/icons/Networking/Virtual-Network-Peerings.svg;" parent="backbone" vertex="1">
+                    <mxGeometry x="483.5" y="215" width="113" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="line-left" value="" style="edgeStyle=none;html=1;strokeWidth=4;strokeColor=#4B5563;endArrow=none;verticalAlign=middle;rounded=0;" parent="backbone" source="vnet-deb" target="peering-line" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="line-right" value="" style="edgeStyle=none;html=1;strokeWidth=4;strokeColor=#4B5563;endArrow=none;verticalAlign=middle;rounded=0;" parent="backbone" source="peering-line" target="vnet-win" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

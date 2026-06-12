@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     dbPassword: "lab-password", dbEngine: "MySQL", dbEngineVersion: "8.0",
     dbClass: "db.t3.micro", dbStorage: "20GB",
     dbInitialName: "lab", dbPort: "3306",
+    dbEndpoint: "lab-db.cpq7pnn7gdwj.us-east-1.rds.amazonaws.com",
     sgWeb: "sg-web-server", sgDb: "sg-db-mysql",
     sshPort: "22", httpPort: "80", anywhereCidr: "0.0.0.0/0",
     webInstanceA: "web-server-alpha", webInstanceB: "web-server-alpha2",
