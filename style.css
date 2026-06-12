@@ -17,6 +17,7 @@
     --info: #0073bb;
     --sidebar-width: 280px;
     --transition: all 0.3s ease;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
     
     /* Fontes 20% maiores */
     --fs-base: 1.3rem; 
